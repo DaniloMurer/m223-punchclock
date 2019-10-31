@@ -21,4 +21,8 @@ public class EntryService {
     public List<Entry> findAll() {
         return entryRepository.findAll();
     }
+
+    public void deleteById(Long id) throws Exception {
+        entryRepository.deleteById(id);
+    }
 }
