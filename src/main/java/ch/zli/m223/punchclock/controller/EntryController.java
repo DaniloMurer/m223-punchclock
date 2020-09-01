@@ -39,4 +39,13 @@ public class EntryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
         }
     }
+
+    @PutMapping
+    public ResponseEntity updateEntry(@Valid @RequestBody Entry entry) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(entryService.updateEntry(entry));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
+    }
 }

@@ -25,4 +25,8 @@ public class EntryService {
     public void deleteById(Long id) throws Exception {
         entryRepository.deleteById(id);
     }
+
+    public Entry updateEntry(Entry entry) throws Exception {
+        return entryRepository.saveAndFlush(entry);
+    }
 }
