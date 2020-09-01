@@ -1,7 +1,7 @@
 const URL = 'http://localhost:8081';
 let entries = [];
 
-const dateAndTimeToDate = (dateString, timeString) => {
+const   dateAndTimeToDate = (dateString, timeString) => {
     return new Date(`${dateString}T${timeString}`).toISOString();
 };
 
@@ -37,7 +37,11 @@ const deleteEntry = (e) => {
     }).catch((error) => {
         console.error(error);
     })
-}
+};
+
+const updateEntry = (e) => {
+
+};
 
 const indexEntries = () => {
     fetch(`${URL}/entries`, {
@@ -69,6 +73,33 @@ const renderEntries = () => {
     });
 };
 
+const autoFillValues = (e) => {
+    const id = parseInt(e.target.value);
+    for (let i = 0; i < entries.length; i++) {
+        if (entries[i].id === id) {
+            const checkInDate = document.querySelector('#checkInDate');
+            checkInDate.value = entries[i].checkIn.getDate();
+            const checkInTime = document.querySelector('#checkInTime');
+            checkInTime.value = entries[i].checkIn.getTime();
+
+            const checkOutDate = document.querySelector('#checkOutDate');
+            checkOutDate.value = entries[i].checkOut.getDate();
+            const checkOutTime = document.querySelector('#checkOutTime');
+            checkOutTime.value = entries[i].checkOut.getTime();
+        }
+    }
+};
+
+/*
+ * Set Event Listeners
+ */
+
+document.addEventListener('DOMContentLoaded', function(){
+    const updateEntryForm = document.querySelector('#updateEntryForm');
+    updateEntryForm.addEventListener('submit', updateEntry);
+    indexEntries();
+});
+
 document.addEventListener('DOMContentLoaded', function(){
     const deleteEntryForm = document.querySelector('#deleteEntryForm');
     deleteEntryForm.addEventListener('submit', deleteEntry);
@@ -79,4 +110,12 @@ document.addEventListener('DOMContentLoaded', function(){
     const createEntryForm = document.querySelector('#createEntryForm');
     createEntryForm.addEventListener('submit', createEntry);
     indexEntries();
+});
+
+/**
+ * If a entry id is selected for the update function, auto fill input fields
+ */
+document.addEventListener('DOMContentLoaded', function(){
+    const entryIdInput = document.querySelector('#entryUpdateId');
+    entryIdInput.addEventListener('change', autoFillValues);
 });
