@@ -40,7 +40,22 @@ const deleteEntry = (e) => {
 };
 
 const updateEntry = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const entry = {};
+    entry['id'] = formData.get('entryUpdateId');
+    entry['checkIn'] = dateAndTimeToDate(formData.get('checkInDate'), formData.get('checkInTime'));
+    entry['checkOut'] = dateAndTimeToDate(formData.get('checkOutDate'), formData.get('checkOutTime'));
 
+    fetch(`${URL}/entries`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entry)
+    }).then(() => {
+        indexEntries();
+    });
 };
 
 const indexEntries = () => {
@@ -78,14 +93,14 @@ const autoFillValues = (e) => {
     for (let i = 0; i < entries.length; i++) {
         if (entries[i].id === id) {
             const checkInDate = document.querySelector('#checkInDate');
-            checkInDate.value = entries[i].checkIn.getDate();
+            checkInDate.value =  entries[i].checkIn.split('T')[0];
             const checkInTime = document.querySelector('#checkInTime');
-            checkInTime.value = entries[i].checkIn.getTime();
+            checkInTime.value = entries[i].checkIn.split('T')[1];
 
             const checkOutDate = document.querySelector('#checkOutDate');
-            checkOutDate.value = entries[i].checkOut.getDate();
+            checkOutDate.value = entries[i].checkOut.split('T')[0];
             const checkOutTime = document.querySelector('#checkOutTime');
-            checkOutTime.value = entries[i].checkOut.getTime();
+            checkOutTime.value = entries[i].checkOut.split('T')[1];
         }
     }
 };

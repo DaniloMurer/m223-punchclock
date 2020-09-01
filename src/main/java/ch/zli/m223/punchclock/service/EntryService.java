@@ -4,6 +4,7 @@ import ch.zli.m223.punchclock.domain.Entry;
 import ch.zli.m223.punchclock.repository.EntryRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
